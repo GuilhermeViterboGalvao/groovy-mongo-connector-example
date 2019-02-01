@@ -1,6 +1,6 @@
 # Groovy Script with MongoDB
 
-# <img src="DOCs/groovy.png" width="50" height="50"/> + <img src="DOCs/mongo.png" width="50" height="50"/>
+# <img src="DOCs/groovy.png" width="100" height="100"/> + <img src="DOCs/mongo.png" width="100" height="100"/>
 
 ## What is this ?
 This is a simple example how to run a script Groovy with MongoDB.
