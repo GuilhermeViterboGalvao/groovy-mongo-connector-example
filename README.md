@@ -53,7 +53,7 @@ sudo systemctl start mongodb
 sudo systemctl status mongodb
 ```
 
-## Create the database for tutorial
+## Creating the database for tutorial
 
 * 1-) Connect on MongoDB and execute these commands
 ```bash
