@@ -19,6 +19,8 @@ class MongoConnector {
 
     private static final def _idName = "userSequence"
 
+    private static def initiaized = false
+
     static def getDb() {
         return db
     }
@@ -28,21 +30,28 @@ class MongoConnector {
     }
 
     static void init(connectionParams) {
-        def passFinal = java.net.URLEncoder.encode(connectionParams.password, "UTF-8")
-        mongoClient = new MongoClient(
-            new MongoClientURI(
-                "mongodb://" +
-                "$connectionParams.userName:$passFinal" +
-                "@$connectionParams.hostName/" +
-                "$connectionParams.dbName" +
-                "$connectionParams.options"
-            )
-        )
-        db = mongoClient.getDatabase(connectionParams.dbName)
-        createAutoIncrement()
+        if (!initiaized) {
+            synchronized (this) {
+                if (!initiaized && connectionParams) {
+                    def passFinal = java.net.URLEncoder.encode(connectionParams.password, "UTF-8")
+                    mongoClient = new MongoClient(
+                        new MongoClientURI(
+                            "mongodb://" +
+                            "$connectionParams.userName:$passFinal" +
+                            "@$connectionParams.hostName/" +
+                            "$connectionParams.dbName" +
+                            "$connectionParams.options"
+                        )
+                    )
+                    db = mongoClient.getDatabase(connectionParams.dbName)
+                    initiaized = true
+                    createAutoIncrement()
+                }
+            }
+        }
     }
 
-    static void createAutoIncrement() {
+    private static void createAutoIncrement() {
         def customSequences = db.getCollection("customSequences")
         def sequence = customSequences ? customSequences.find(eq("id", _idName)).first() : null
         if (!sequence) {
@@ -55,9 +64,12 @@ class MongoConnector {
     }
 
     static def getNextSequence() {
-        def find = new BasicDBObject("id", _idName)
-        def update = new BasicDBObject("\$inc", new BasicDBObject("seq", 1))
-        def obj = db.getCollection("customSequences").findOneAndUpdate(find, update)
-        return obj.get("seq")
+        if (initiaized) {
+            def find = new BasicDBObject("id", _idName)
+            def update = new BasicDBObject("\$inc", new BasicDBObject("seq", 1))
+            def obj = db.getCollection("customSequences").findOneAndUpdate(find, update)
+            return obj.get("seq")
+        }
+        return null
     }
 }

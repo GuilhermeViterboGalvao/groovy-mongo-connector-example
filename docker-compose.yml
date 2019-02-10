@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+
+  user-mongo:
+    image: mongo:latest
+    ports:
+      - "27017"
+    restart: always
+    container_name: user-mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=r00t
+    volumes:
+      - ./user-mongo/db:/data/db
+
+  setup:
+    image: mongo:latest
+    depends_on:
+      - user-mongo
+    links:
+      - user-mongo:user-mongo
+    command: >
+      bash -c "
+        mongo --username root --password r00t --host user-mongo --port 27017 --eval \"db.getSiblingDB('user').runCommand( { createUser: 'user-admin', pwd: 'admin123', roles: [ 'readWrite' ] });\"
+      "
+
+  app:
+    build: .
+    restart: always
+    container_name: app
+    depends_on:
+      - user-mongo
+    links:
+      - user-mongo:user-mongo
+    volumes:
+      - ./:/app
+      - ~/.groovy:/root/.groovy
+      - ~/.m2:/root/.m2
