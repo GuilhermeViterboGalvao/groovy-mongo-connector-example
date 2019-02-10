@@ -41,7 +41,7 @@ docker-compose run --rm setup
 ```bash
 docker-compose run --rm app bash
 $:> nohup ./run_for_docker.sh &
-$:> tail -f logs/run_2014.log
+$:> tail -f logs/user.log
 ```
 
 ## Running at your machine, installing MongoDB

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-fileName="insert_all"
+fileName="run"
 groovyPath="groovy"
 
 scriptPath=$(dirname "$0")
