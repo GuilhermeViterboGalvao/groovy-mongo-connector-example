@@ -26,7 +26,9 @@ class UserUtils {
 
     private static getUserDocument(id) {
         def user = new Document()
-        user.append("_id", id)
+        user.append("_id", id) // Mongo driver will persiste with INT type,
+                               // if you change to long, in all other consults
+                               // you will have to use Long.parseLong()
         user.append("name", "user-$id".toString())
         user.append("email", "user$id@gmail.com".toString())
         return user

@@ -5,7 +5,43 @@
 ## What is this ?
 This is a simple example how to run a script Groovy with MongoDB.
 
-## Installing MongoDB
+### What you will need to run this project ?
+
+* [Java](https://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html)
+```bash
+sudo apt-get install java
+```
+
+* [Groovy](http://groovy-lang.org/download.html)
+```bash
+sudo apt-get install groovy
+```
+
+* [Maven](https://maven.apache.org/download.cgil)
+```bash
+sudo apt-get install maven
+```
+
+### Run with Docker
+
+* 1-) Run the docker compose build in the folder script, example:
+```bash
+docker-compose build
+```
+
+* 2-) Run the setup step on the docker compose, examploe:
+```bash
+docker-compose run --rm setup
+```
+
+* 3-) Run the ETL inscript inside of conteiner:
+```bash
+docker-compose run --rm app bash
+$:> nohup ./run_for_docker.sh &
+$:> tail -f logs/run_2014.log
+```
+
+## Running at your machine, installing MongoDB
 This installation example it's only for Linux.
 
 * 1-) Add apt-key and install MongoDB
