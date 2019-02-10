@@ -105,5 +105,5 @@ $: mongo
 
 * 1-) Just run the import.sh script :-)
 ```bash
-./import.sh
+./run.sh
 ```
