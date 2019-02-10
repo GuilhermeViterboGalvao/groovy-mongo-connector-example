@@ -22,6 +22,9 @@ sudo apt-get install groovy
 sudo apt-get install maven
 ```
 
+* [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+* [Docker-Compose](https://docs.docker.com/compose/install/s)
+
 ### Run with Docker
 
 * 1-) Run the docker compose build in the folder script, example:
